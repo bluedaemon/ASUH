@@ -42,7 +42,7 @@ for i in xrange(len(function_array)):
 	if function_array[i] in ASUHfuncs:
 		temp.append((variable_array[i]+'='+'ASUH_'+function_array[i]+'('+parameter_array[i]+')'))
 user_ = 'jl'
-pass_ = 'Sprite123'
+pass_ = 'xxxx'
 
 ssh_client = SSHClient()
 ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
