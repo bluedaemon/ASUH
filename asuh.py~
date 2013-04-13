@@ -96,4 +96,3 @@ output.write(stdout.read())
 
 #SSH Client code termination
 ssh_client.close()
-sfpt.close()

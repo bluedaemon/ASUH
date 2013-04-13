@@ -1,4 +1,4 @@
-Last login: Tue Mar 26 22:50:39 2013 from 192.12.88.141
+Last login: Fri Apr 12 18:48:26 2013 from 192.12.88.158
 
 python
 
@@ -23,8 +23,8 @@ x=ASUH_rand(1000,1000)
 y=ASUH_min(x)
 exit()
 exit
-pg@Ira:~$ 
-pg@Ira:~$ python
+jl@Ira:~$ 
+jl@Ira:~$ python
 Python 2.7.3 (default, Aug  1 2012, 05:14:39) 
 [GCC 4.6.3] on linux2
 Type "help", "copyright", "credits" or "license" for more information.
@@ -50,5 +50,5 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> y=ASUH_min(x)
 1
 >>> exit()
-pg@Ira:~$ exit
+jl@Ira:~$ exit
 logout
