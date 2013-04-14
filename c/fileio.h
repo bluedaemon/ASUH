@@ -2,7 +2,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdlib.h>
 
-int readfile(int, int, void **, char *);
-int writefile(int, int, void **, char *);
+int readfile(int, int, double **, char *);
+int writefile(int, int, double **, char *);
 

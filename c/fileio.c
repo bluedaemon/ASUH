@@ -1,7 +1,7 @@
 /* This file contains the functions for writing and reading files */
 #include "fileio.h"
 
-int readfile(int columns, int rows, void **data, char *filename)
+int readfile(int columns, int rows, double **data, char *filename)
 {
 	FILE *inputfile;
 	if((inputfile = fopen(filename, "r")) == NULL)
@@ -11,25 +11,42 @@ int readfile(int columns, int rows, void **data, char *filename)
 		exit(1);
 	}
 
-	int i, j;
+	int i, j, hold;
 
 	for(j = 0; j < rows; j++)
 	for(i = 0; i < columns; i++)
 	{
-		fscanf(inputfile, "%d,", data[i][j]);
+		hold = getc(inputfile);
+		if(hold == '\n' || hold == ',')
+		{
+			hold = getc(inputfile);
+			if(hold == '-');
+			{
+				hold = getc(inputfile);
+				data[i][j] = -1 * (hold - 48);
+			}
+		}
+		else if(hold == '-')
+		{
+			hold = getc(inputfile);
+			data[i][j] = -1 * (hold - 48);
+		}
+		else
+			data[i][j] = hold - 48;
 	}
 
 	fclose(inputfile);
+	return 0;
 }
 
-int writefile(int columns, int rows, void **data, char *filename)
+int writefile(int columns, int rows, double **data, char *filename)
 {
 	FILE *outputfile;
 	if((outputfile = fopen(filename, "w")) != NULL)
 	{
 		perror("fileio.h write");
 		fprintf(stderr,"File already exists");
-		exit(1);
+		return -1;
 	}
 
 	int i, j;
@@ -37,11 +54,12 @@ int writefile(int columns, int rows, void **data, char *filename)
 	for(j = 0; j < rows; j++)
 	for(i = 0; i < columns; i++)
 	{
-		fprintf(outputfile, "%d", <long>data[i][j]);
+		fprintf(outputfile, "%f", data[i][j]);
 		if((i+1) != columns)
 			fprintf(outputfile,",");
 		else
 			fprintf(outputfile, "\n");
 	}
 	fclose(outputfile);
+	return 0;
 }
