@@ -1,7 +1,7 @@
 /* This file contains the functions for writing and reading files */
 #include "fileio.h"
 
-int readFile(int columns, int rows, int **data, char *filename)
+int readFile(int vector, int place, int **data, char *filename)
 {
 	FILE *inputfile;
 	if((inputfile = fopen(filename, "r")) == NULL)
@@ -13,8 +13,8 @@ int readFile(int columns, int rows, int **data, char *filename)
 
 	int i, j, hold;
 
-	for(j = 0; j < rows; j++)
-	for(i = 0; i < columns; i++)
+	for(j = 0; j < vector; j++)
+	for(i = 0; i < place; i++)
 	{
 		hold = getc(inputfile);
 		if(hold == '\n' || hold == ',')
@@ -41,7 +41,7 @@ int readFile(int columns, int rows, int **data, char *filename)
 	return 0;
 }
 
-int writeFile(int columns, int rows, int **data, char *filename)
+int writeFile(int vector, int place, int **data, char *filename)
 {
 	FILE *outputfile;
 	outputfile = fopen(filename, "w");
@@ -54,11 +54,11 @@ int writeFile(int columns, int rows, int **data, char *filename)
 */
 	int i, j;
 
-	for(j = 0; j < rows; j++)
-	for(i = 0; i < columns; i++)
+	for(j = 0; j < vector; j++)
+	for(i = 0; i < place; i++)
 	{
 		fprintf(outputfile, "%d", data[j][i]);
-		if((i+1) != columns)
+		if((i+1) != place)
 			fprintf(outputfile,",");
 		else
 			fprintf(outputfile, "\n");
@@ -67,20 +67,20 @@ int writeFile(int columns, int rows, int **data, char *filename)
 	return 0;
 }
 
-int **createArray(int columns, int rows)
+int **createArray(int vector, int place)
 {
-	int **newArray = (int**)malloc(sizeof(int *) * rows);
+	int **newArray = (int**)malloc(sizeof(int *) * vector);
 	int i;
-	for(i = 0; i < rows; i++)
-		newArray[i]  = (int *)malloc(sizeof(int) * columns);
+	for(i = 0; i < vector; i++)
+		newArray[i]  = (int *)malloc(sizeof(int) * place);
 		
 	return newArray;
 }
 
-void freeArray(int columns, int rows, int **anArray)
+void freeArray(int vector, int place, int **anArray)
 {
 	int i;
-	for(i = 0; i < rows; i++)
+	for(i = 0; i < vector; i++)
 		free(anArray[i]);
 	free(anArray);
 }

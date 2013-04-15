@@ -4,7 +4,25 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+
+/*
+	These functions pass double pointers, we've chosen to name a contiguous block of memory a "vector"
+	"place" refers to the location of a value in a given "vector"
+	Values in an "array" are referenced via arrayName[vector #][place #]
+*/
+
+/* Reads information from a CSV file into an "array" of size vector * place */
+/* (vector, place, array, filename) */
 int readFile(int, int, int **, char *);
+
+/* Writes the information in an "array" to a CSV file */
+/* (vector, place, array, filename) */
 int writeFile(int, int, int **, char *);
+
+/* Creates and returns a double pointer */
+/* (vector, place) */
 int **createArray(int, int);
+
+/* Frees a double array created by createArray() */
+/* (vector, place) */
 void freeArray(int, int, int **);

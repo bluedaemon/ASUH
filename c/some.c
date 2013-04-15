@@ -45,8 +45,8 @@ int main()
 
 	int **thisarray = createArray(c, r);
 	int i,j;
-	for(j=0;j<r;j++)
-	for(i=0;i<c;i++)
+	for(j=0;j<c;j++)
+	for(i=0;i<r;i++)
 		thisarray[j][i] = j;
 
 	writeFile(c,r,thisarray,"output");
