@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-int readFile(int, int, double **, char *);
-int writeFile(int, int, double **, char *);
-double **createArray(int, int);
-void freeArray(int, int, double**);
+int readFile(int, int, int **, char *);
+int writeFile(int, int, int **, char *);
+int **createArray(int, int);
+void freeArray(int, int, int **);

@@ -1,7 +1,7 @@
 /* This file contains the functions for writing and reading files */
 #include "fileio.h"
 
-int readFile(int columns, int rows, double **data, char *filename)
+int readFile(int columns, int rows, int **data, char *filename)
 {
 	FILE *inputfile;
 	if((inputfile = fopen(filename, "r")) == NULL)
@@ -20,41 +20,44 @@ int readFile(int columns, int rows, double **data, char *filename)
 		if(hold == '\n' || hold == ',')
 		{
 			hold = getc(inputfile);
-			if(hold == '-');
+			if(hold == '-')
 			{
 				hold = getc(inputfile);
-				data[i][j] = -1 * (hold - 48);
+				data[j][i] = -1 * (hold - 48);
 			}
+			else
+				data[j][i] = hold - 48;
 		}
 		else if(hold == '-')
 		{
 			hold = getc(inputfile);
-			data[i][j] = -1 * (hold - 48);
+			data[j][i] = -1 * (hold - 48);
 		}
 		else
-			data[i][j] = hold - 48;
+			data[j][i] = hold - 48;
 	}
 
 	fclose(inputfile);
 	return 0;
 }
 
-int writeFile(int columns, int rows, double **data, char *filename)
+int writeFile(int columns, int rows, int **data, char *filename)
 {
 	FILE *outputfile;
-	if((outputfile = fopen(filename, "w")) != NULL)
+	outputfile = fopen(filename, "w");
+/*	if((outputfile = fopen(filename, "w")) != NULL)
 	{
 		perror("fileio.h write");
 		fprintf(stderr,"File already exists");
 		return -1;
 	}
-
+*/
 	int i, j;
 
 	for(j = 0; j < rows; j++)
 	for(i = 0; i < columns; i++)
 	{
-		fprintf(outputfile, "%f", data[i][j]);
+		fprintf(outputfile, "%d", data[j][i]);
 		if((i+1) != columns)
 			fprintf(outputfile,",");
 		else
@@ -64,18 +67,21 @@ int writeFile(int columns, int rows, double **data, char *filename)
 	return 0;
 }
 
-double **createArray(int columns, int rows)
+int **createArray(int columns, int rows)
 {
-	double **newArray = (double**)malloc(sizeof(double *) * rows);
+	int **newArray = (int**)malloc(sizeof(int *) * rows);
 	int i;
 	for(i = 0; i < rows; i++)
-		*(newArray + i) = (double *)malloc(sizeof(double) * columns);
+		newArray[i]  = (int *)malloc(sizeof(int) * columns);
 		
 	return newArray;
 }
 
-void freeArray(int columns, int rows, double **anArray)
+void freeArray(int columns, int rows, int **anArray)
 {
-	
+	int i;
+	for(i = 0; i < rows; i++)
+		free(anArray[i]);
+	free(anArray);
 }
 
