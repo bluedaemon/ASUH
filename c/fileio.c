@@ -1,7 +1,7 @@
 /* This file contains the functions for writing and reading files */
 #include "fileio.h"
 
-int readfile(int columns, int rows, double **data, char *filename)
+int readFile(int columns, int rows, double **data, char *filename)
 {
 	FILE *inputfile;
 	if((inputfile = fopen(filename, "r")) == NULL)
@@ -39,7 +39,7 @@ int readfile(int columns, int rows, double **data, char *filename)
 	return 0;
 }
 
-int writefile(int columns, int rows, double **data, char *filename)
+int writeFile(int columns, int rows, double **data, char *filename)
 {
 	FILE *outputfile;
 	if((outputfile = fopen(filename, "w")) != NULL)
@@ -63,3 +63,19 @@ int writefile(int columns, int rows, double **data, char *filename)
 	fclose(outputfile);
 	return 0;
 }
+
+double **createArray(int columns, int rows)
+{
+	double **newArray = (double**)malloc(sizeof(double *) * rows);
+	int i;
+	for(i = 0; i < rows; i++)
+		*(newArray + i) = (double *)malloc(sizeof(double) * columns);
+		
+	return newArray;
+}
+
+void freeArray(int columns, int rows, double **anArray)
+{
+	
+}
+
