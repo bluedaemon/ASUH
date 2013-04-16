@@ -48,7 +48,7 @@ for i in xrange(len(workflow_array)):
 #Insert your username and password here
 #We recommend using password-less login via SSH Keys in order to preserve the security of passwords
 user_ = 'pg'
-pass_ = ''
+pass_ = 'ThisIsTheEnd#!'
 host= 'twentyseven.info'
 port= 22
 #SSH Client initialization
@@ -69,29 +69,44 @@ sftp = paramiko.SFTPClient.from_transport(transport)
 #localpath= ''
 #sftp.put(serverpath,localpath)
 
-#for testing
-filepaths['c/fileio.c', 'c/fileio.h', 'c/min.c', 'c/max.c', 'c/rand.c']
-
 
 chan = ssh_client.invoke_shell()
 stdin = chan.makefile('wb')
 stdout = chan.makefile('rb')
 
+#for testing
+stdin.write('mkdir c')
+
+filepaths=['c/fileio.c', 'c/fileio.h', 'c/min.c', 'c/max.c', 'c/rand.c']
+#for i in filepaths:
+#	sftp.put(i, i)
+sftp.put('c/fileio.c','c/fileio.c')
+sftp.put('c/fileio.h','c/fileio.h')
+sftp.put('c/min.c','c/min.c')
+sftp.put('c/max.c','c/max.c')
+sftp.put('c/rand.c','c/rand.c')
 #SSH Client code execution
-
-
+stdin.write(
+'''
+cd c\n
+gcc -o rand filio.h fileio.c rand.c\n
+gcc -o min fileio.h fileio.c min.c\n
+gcc -o max fileio.h fileio.c max.c\n
+./rand 100 100 i.csv\n
+./min 100 100 i.csv o1.csv\n
+./max 100 100 i.csv 02.csv\n
+exit
+'''
+)
 
 #stdin.write(
-
 #'''
 #python
 #'''
-
 #+ASUH_rand+ASUH_min)
 
 #for i in function_array:
 #	stdin.write('\n'+i)
-
 #stdin.write('''
 #exit()
 #exit
@@ -101,4 +116,6 @@ output.write(stdout.read())
 
 #SSH Client code termination
 ssh_client.close()
-sfpt.close()
+sftp.get('c/o1.csv', 'c/o1.csv')
+sftp.get('c/o2.csv', 'c/o2.csv')
+sftp.close()
