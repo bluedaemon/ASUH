@@ -9,7 +9,6 @@ from paramiko import SSHClient
 ASUH_rand='''
 def ASUH_rand(N,M):
 	return [[random.randrange(1,100) for x in range(N)] for y in range(M)]
-
 '''
 
 ASUH_min='''
@@ -24,7 +23,6 @@ def ASUH_min(m):
 
 def a_min(a,q):
 	q.put(min(a))
-
 '''
 
 #Variable initialization that store variable and data from text file
@@ -36,7 +34,7 @@ function_array=[]
 output = open('output.txt','w')
 
 #Parse input file using regular expressions
-f = open("b.txt")
+f = open("example.txt")
 for line in f:
 	parameter_array.append(re.search('\((.*?)\)',line).group(1))
 	variable_array.append(re.search('(.*?)\=',line).group(1))
@@ -67,30 +65,37 @@ sftp = paramiko.SFTPClient.from_transport(transport)
 #sftp.get(filepath,localpath)
 
 #upload
-#filepath = ''
+#serverpath = ''
 #localpath= ''
-#sftp.put(filepath,localpath)
+#sftp.put(serverpath,localpath)
+
+#for testing
+filepaths['c/fileio.c', 'c/fileio.h', 'c/min.c', 'c/max.c', 'c/rand.c']
+
 
 chan = ssh_client.invoke_shell()
 stdin = chan.makefile('wb')
 stdout = chan.makefile('rb')
 
 #SSH Client code execution
-stdin.write(
 
-'''
-python
-'''
 
-+ASUH_rand+ASUH_min)
 
-for i in function_array:
-	stdin.write('\n'+i)
+#stdin.write(
 
-stdin.write('''
-exit()
-exit
-''')
+#'''
+#python
+#'''
+
+#+ASUH_rand+ASUH_min)
+
+#for i in function_array:
+#	stdin.write('\n'+i)
+
+#stdin.write('''
+#exit()
+#exit
+#''')
 
 output.write(stdout.read())
 
