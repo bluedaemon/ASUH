@@ -7,7 +7,8 @@
 
 /*
 	These functions pass double pointers, we've chosen to name a contiguous block of memory a "vector"
-	"place" refers to the location of a value in a given "vector"
+	"vector" is analagous to a row in the array given
+	"place" refers to the location of a value in a given "vector" or row
 	Values in an "array" are referenced via arrayName[vector #][place #]
 */
 

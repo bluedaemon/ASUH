@@ -49,7 +49,7 @@ for i in xrange(len(workflow_array)):
 
 #Insert your username and password here
 #We recommend using password-less login via SSH Keys in order to preserve the security of passwords
-user_ = 'jl'
+user_ = 'pg'
 pass_ = ''
 host= 'twentyseven.info'
 port= 22
