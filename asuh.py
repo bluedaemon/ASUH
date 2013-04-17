@@ -75,11 +75,12 @@ stdin = chan.makefile('wb')
 stdout = chan.makefile('rb')
 
 #for testing
-stdin.write('mkdir c')
+#stdin.write('mkdir c')
 
 filepaths=['c/fileio.c', 'c/fileio.h', 'c/min.c', 'c/max.c', 'c/rand.c']
 #for i in filepaths:
 #	sftp.put(i, i)
+sftp.mkdir("c")
 sftp.put('c/fileio.c','c/fileio.c')
 sftp.put('c/fileio.h','c/fileio.h')
 sftp.put('c/min.c','c/min.c')
