@@ -51,7 +51,7 @@ for i in xrange(len(workflow_array)):
 #Insert your username and password here
 #We recommend using password-less login via SSH Keys in order to preserve the security of passwords
 user_ = 'outcode'
-pass_ =''
+pass_ ='127001402'
 host= 'mphase.rutgers.edu'
 port= 22
 #SSH Client initialization
@@ -78,17 +78,17 @@ stdout = chan.makefile('rb')
 
 #SSH Client code execution
 stdin.write(
-
+#calc=$(eval $load | bc)
 '''
-touch cpu.info
-cat /proc/loadavg | grep -o '^[0-9].[0-9][0-9]' > cpu.info
 #!/bin/sh 
-load=$(<cpu.info)
-if [ $load > 0 ]
+cmd="top -b -n 2 | grep 'Cpu(s)' | tail -1 | grep -o -P '.{0,5}%id' | sed 's/.\{3\}$//'"
+load=$(eval $cmd | bc)
+echo $load
+if [[ $load > 40 ]]
 then
-echo "hi"
+openssl enc -aes-256-cbc -salt -in file.txt -out file.enc -pass pass:MySillyPassword
 else
-echo "nana"
+echo "Running on the GPU"
 fi
 exit
 ''')
