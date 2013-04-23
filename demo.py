@@ -7,7 +7,7 @@ from paramiko import SSHClient
 output = open('output.txt', 'w')
 
 user_ = 'patgray'#getpass.getuser()
-pass_ = 'GrayIsGood#!'
+pass_ = ''
 host_ = 'orissa.engr.rutgers.edu'
 port_ = 22
 
@@ -55,9 +55,20 @@ cd
 gcc -o ran c/fileio.h c/fileio.c c/rand.c
 gcc -o min c/fileio.h c/fileio.c c/min.c
 gcc -o max c/fileio.h c/fileio.c c/max.c
-./ran 100 100 i.csv
-./min 100 100 i.csv o1.csv
-./max 100 100 i.csv o2.csv
+./ran 10000 10000 i.csv
+./min 10000 10000 i.csv o1.csv &
+./max 10000 10000 i.csv o2.csv &
+touch cpu.info
+cat /proc/loadavg | grep -o '^[0-9].[0-9][0-9]' >> cpu.info
+#!/bin/sh 
+load=$(<cpu.info)
+if [ $load > 0 ]
+then
+echo "hi"
+else
+echo "nana"
+fi
+rm -r c
 exit
 '''
 )
@@ -67,4 +78,5 @@ dirlist = sftp.listdir('.')
 print "DirList:", dirlist
 sftp.get('o1.csv','o1.csv')
 sftp.get('o2.csv','o2.csv')
+sftp.get('cpu.info','cpu.info')
 t.close()
