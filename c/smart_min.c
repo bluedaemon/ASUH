@@ -70,10 +70,9 @@ void *worker_min(void * parameters)
         	pmin=tempparam->data[tempparam->threadid][i];
     }
 
-    //semaphore while accessing sum variable and a fake event counter
+    //semaphore while accessing sum variable
     pthread_mutex_lock(&mymutex);
     min=min>pmin ? pmin : min;
-	
     event++;
     pthread_mutex_unlock(&mymutex);
 

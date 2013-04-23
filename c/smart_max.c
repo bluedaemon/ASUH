@@ -70,10 +70,9 @@ void *worker_max(void * parameters)
         	pmax=tempparam->data[tempparam->threadid][i];
     }
 
-    //semaphore while accessing sum variable and a fake event counter
+    //semaphore while accessing sum variable
     pthread_mutex_lock(&mymutex);
     max=max<pmax ? pmax : max;
-	
     event++;
     pthread_mutex_unlock(&mymutex);
 
