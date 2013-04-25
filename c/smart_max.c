@@ -2,8 +2,6 @@
 
 #include "fileio.h"
 #include <pthread.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 //global variables
 int max;

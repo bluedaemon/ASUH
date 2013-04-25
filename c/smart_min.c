@@ -2,8 +2,6 @@
 
 #include "fileio.h"
 #include <pthread.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 //global variables
 int min;
@@ -88,5 +86,6 @@ int main(){
 	ans[0][0]=a;
 	writeFile(1,1,ans,"min_ans");
 	pthread_exit(NULL); 
+	freeArray(1,1,ans);
 	return 0;
 }
