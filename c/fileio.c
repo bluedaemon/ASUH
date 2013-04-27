@@ -4,7 +4,7 @@
 int readFile(int vector, int place, int **data, char *filename)
 {
 	FILE *inputfile;
-	char *temp=(char*)malloc(sizeof(char)*4294967295);
+	char *temp=(char*)malloc(sizeof(char)*10);
 	if((inputfile = fopen(filename, "r")) == NULL)
 	{
 		perror("fileio.h read");
@@ -74,7 +74,7 @@ int readFile(int vector, int place, int **data, char *filename)
 int readFileCUDA(int vector, int place, int *data, char *filename)
 {
 	FILE *inputfile;
-	char *temp=(char*)malloc(sizeof(char)*4294967295);
+	char *temp=(char*)malloc(sizeof(char)*10);
 	if((inputfile = fopen(filename, "r")) == NULL)
 	{
 		perror("fileio.h read");
