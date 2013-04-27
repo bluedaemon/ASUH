@@ -57,12 +57,12 @@ for line in f:
 	parameter_array.append(re.search('\((.*?)\)',line).group(1))
 	function = re.search('(.*?)\(',line).group(1)
 	workflow_array.append(function)
-	filepaths.append("c/"+function+".c")
-	filepaths.append("cuda/"+function+".cu")
+	filepaths.append("c/c_"+function+".c")
+	filepaths.append("cuda/cu_"+function+".cu")
 
 for i in range(0,len(workflow_array)):
-	commands.append("gcc -o c_"+workflow_array[i]+" c/fileio.h c/fileio.c "+"c/"+workflow_array[i]+".c\n")
-	commands.append("nvcc -o cu_"+workflow_array[i]+" c/fileio.h c/fileio.c "+"cuda/"+workflow_array[i]+".cu\n")
+	commands.append("gcc -o c_"+workflow_array[i]+" c/fileio.h c/fileio.c "+"c/c_"+workflow_array[i]+".c\n")
+	commands.append("nvcc -o cu_"+workflow_array[i]+" c/fileio.h c/fileio.c "+"cuda/cu_"+workflow_array[i]+".cu\n")
 	c_run="./c_"+workflow_array[i]+" "
 	cu_run="./cu_"+workflow_array[i]+" "
 	#Parameter Parsing
