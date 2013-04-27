@@ -27,5 +27,3 @@ int **createArray(int, int);
 /* Frees a double array created by createArray() */
 /* (vector, place) */
 void freeArray(int, int, int **);
-
-int readFileCUDA(int vector, int place, int *data, char *filename);
