@@ -14,7 +14,7 @@ int main(int argc, char **argv)
 	int i,j;
 	for(j=0;j < vector; j++)
 	for(i=0;i < place; i++)
-		randArray[j][i] = random() / (RAND_MAX / 10);
+		randArray[j][i] = random() / (RAND_MAX / 1000);
 	writeFile(vector, place, randArray, argv[3]);
 	freeArray(vector, place, randArray);
 	return 0;
