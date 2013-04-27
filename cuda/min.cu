@@ -9,7 +9,6 @@ example : ./max 10 10 input.csv output.cs
 __global__ void cmax(int *arrayD,int* answerD,int size) {
 unsigned int i = blockIdx.x*blockDim.x + threadIdx.x;
 if(i<size){
-printf("%d\n",i);
 
 unsigned int tid = threadIdx.x;
 extern __shared__ int sdata[];
