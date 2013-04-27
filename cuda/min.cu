@@ -17,7 +17,7 @@ sdata[tid] = arrayD[i];
 __syncthreads();
 
 for (unsigned int s=(size%2==0 ? size>>1 : size>>1+1); s>0; s=(s%2==0 ? s>>1 : (s>>1)+1)) {
-	if(tid < s){printf("%d>%d\n",sdata[tid],sdata[tid+s]);
+	if(tid < s){
 		sdata[tid]= sdata[tid]<sdata[tid+s] ? sdata[tid]: sdata[tid+s];
 	}
 __syncthreads();
