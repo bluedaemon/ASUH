@@ -1,2 +1,2 @@
-min(10,10,i.csv,o2.csv)
+min(10,10,i.csv,o1.csv)
 max(10,10,i.csv,o2.csv)
