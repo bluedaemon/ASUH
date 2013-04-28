@@ -134,8 +134,8 @@ output.write(stdout.read())
 
 #SSH Client code termination
 ssh_client.close()
+sftp.get('o1.csv','o1.csv')
+sftp.get('o2.csv','o2.csv')
 sftp.close()
-#sftp.get('o1.csv','o1.csv')
-#sftp.get('o2.csv','o2.csv')
 #sftp.get('cpu.info','cpu.info')
 t.close()
