@@ -4,14 +4,14 @@ import getpass
 import paramiko
 from paramiko import SSHClient
 
-#TODO RENAME ALL C FILE TO HAVE C_ AS PREFIX AND CUDA FILE TO HAVE CU_ AS PREFIX (c_max.c cu_max.cu)
+#TODO REMOVE ALL THE OUTPUT PRINT STATEMENTS AND REPLACE BY FILE OUTPUT
 
 output = open('output.txt', 'w')
 
 #Insert your username and password here
 #We recommend using password-less login via SSH Keys in order to preserve the security of passwords
 user_ = 'outcode'
-pass_ =''
+pass_ ='127001402'
 host_= 'mphase.rutgers.edu'
 port_= 22
 
@@ -48,7 +48,7 @@ parameter_array=[]
 commands=["cd\n"]
 cuda_fc=[]
 c_fc=[]
-filepaths = ['c/fileio.c', 'c/fileio.h']
+filepaths = ['c/fileio.c', 'c/fileio.h', 'cuda/fileio.c', 'cuda/fileio.h', 'i.csv']
 output = open('output.txt','w')
 
 #Parse input file using regular expressions
@@ -57,12 +57,12 @@ for line in f:
 	parameter_array.append(re.search('\((.*?)\)',line).group(1))
 	function = re.search('(.*?)\(',line).group(1)
 	workflow_array.append(function)
-	filepaths.append("c/c_"+function+".c")
-	filepaths.append("cuda/cu_"+function+".cu")
+	filepaths.append("c/"+function+".c")
+	filepaths.append("cuda/"+function+".cu")
 
 for i in range(0,len(workflow_array)):
-	commands.append("gcc -o c_"+workflow_array[i]+" c/fileio.h c/fileio.c "+"c/c_"+workflow_array[i]+".c\n")
-	commands.append("nvcc -o cu_"+workflow_array[i]+" c/fileio.h c/fileio.c "+"cuda/cu_"+workflow_array[i]+".cu\n")
+	commands.append("gcc -lpthread -o c_"+workflow_array[i]+" c/fileio.h c/fileio.c "+"c/"+workflow_array[i]+".c\n")
+	commands.append("nvcc -o cu_"+workflow_array[i]+" cuda/"+workflow_array[i]+".cu"+" cuda/fileio.c\n")
 	c_run="./c_"+workflow_array[i]+" "
 	cu_run="./cu_"+workflow_array[i]+" "
 	#Parameter Parsing
@@ -70,8 +70,8 @@ for i in range(0,len(workflow_array)):
 		c_run=c_run+prm+" "
 		cu_run=cu_run+prm+" "
 	#Add to respective list (c or cuda)
-	c_fc.append(c_run+"\n")
-	cuda_fc.append(cu_run+"\n")
+	c_fc.append(c_run)
+	cuda_fc.append(cu_run)
 
 
 dirlist = sftp.listdir('.')
@@ -101,12 +101,14 @@ commands.append(cuda_fc[0]+" &\n")
 for cnt in range(1,len(c_fc)):
 	commands=commands+["""#!/bin/sh\n""",
           		   """cmd='top -b -n 2 | grep "Cpu(s)" | tail -1 | grep -o -P ".{0,5}%id" | sed "s/.\{3\}$//"'\n""",
-		 	   """cpu_load=$(eval $cmd | bc)\n""",
+		 	   """cpu_load=$((100-($(eval $cmd | bc))))\n""",
 		 	   """cmd='nvidia-smi -a | grep -m 1 "Gpu" | sed "s/[^0-9]*//g"'\n""",
           	  	   """gpu_load=$(eval $cmd | bc)\n""",
-		  	   "if [[ $gpu_load < $cpu_load ]]\nthen\n"+c_fc[cnt]+" &\nelse\n"+cuda_fc[cnt]+" &\nfi\n",
-		  	   """exit\n"""
+		  	   "if [[ $gpu_load < $cpu_load ]]\nthen\necho gpu\n"+cuda_fc[cnt]+" &\nelse\necho cpu\n"+c_fc[cnt]+" &\nfi\n",
          ]
+
+#Exit out of RSH
+commands=commands+["wait $!\n","""exit\n"""]
 
 for line in commands:
 	buff = ''
@@ -117,8 +119,9 @@ for line in commands:
 		resp = chan.recv(9999)
 		buff += resp
 
-	print 'buff', buff
+	print buff
 
+#Exit out of SSH
 stdin.write(
 '''
 exit
