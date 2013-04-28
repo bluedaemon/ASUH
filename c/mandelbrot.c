@@ -22,11 +22,10 @@ int main(int argc, char **argv)
 {
 	int vector = atoi(argv[1]);
 	int place = atoi(argv[2]);
-	int i,j,check;
-	threadinfo *info = (threadinfo*)malloc(vector * sizeof(struct threadinfo));
+	int j,check;
+	threadinfo *info = (threadinfo*)malloc(vector * sizeof(threadinfo));
 	int **grid = createArray(vector,place);
 	pthread_t *ids = (pthread_t*)malloc(vector * sizeof(pthread_t));
-	writeFile(vector,place,grid,"ex");
 	for(j=0;j<vector;j++)
 	{
 		info[j].id = j;
