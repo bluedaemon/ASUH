@@ -20,21 +20,23 @@ int main (int argc,char ** argv)
         int i, j;
 	const int xdim=atoi(argv[1]);
 	const int ydim=atoi(argv[2]);
-
+	
 	dim3 blockDim(16,16);
-	dim3 gridDim(xdim/blockDim.x,ydim/blockDim.y);
+	const int gridx= xdim%blockDim.x==0 ? xdim/blockDim.x : xdim/blockDim.x+1; 
+	const int gridy= ydim%blockDim.y==0 ? ydim/blockDim.y : ydim/blockDim.y+1; 
+	dim3 gridDim(gridx,gridy);
 	int* pixels;
-	int pixels2[xdim*ydim];
+	int* pixels2=(int*) malloc(sizeof(int)*xdim*ydim);
 	int **grid = createArray(xdim,ydim);
 
 	cudaMalloc((void**)&pixels,xdim*ydim*sizeof(int));
-	cudaMemcpy(pixels,pixels2,xdim*ydim,cudaMemcpyHostToDevice);
 
 	calc<<<gridDim, blockDim>>>(pixels,xdim,ydim);
 
 	cudaDeviceSynchronize();
 
 	cudaMemcpy(pixels2,pixels,xdim*ydim*sizeof(int),cudaMemcpyDeviceToHost);
+
 	for(i=0;i<xdim;i++){
 	for(j=0;j<ydim;j++){
 		grid[i][j]=pixels2[i*ydim+j];
@@ -56,7 +58,7 @@ __global__ void calc(int* pixels, int xdim, int ydim){
 	
         	z.real = z.imag = 0.0;
         	c.real = ((float) j - (ydim/2.0))/(ydim/4.0);  
-		c.imag = ((float) i - (ydim/2.0))/(ydim/4.0);
+		c.imag = ((float) i - (xdim/2.0))/(xdim/4.0);
         	k = 0;
 	
 		do{                                           
@@ -67,7 +69,7 @@ __global__ void calc(int* pixels, int xdim, int ydim){
         	 	k++;
         	} while (lengthsq < 4.0 && k < 100);
 	
-		pixels[i*ydim+j]=(k == 100);
+		pixels[i*ydim+j]=(k==100);
 }
 }	
 
