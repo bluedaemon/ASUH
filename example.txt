@@ -1,3 +1,2 @@
-rand(10000,10000,i.csv)
 min(10000,10000,i.csv,o2.csv)
 max(10000,10000,i.csv,o2.csv)
