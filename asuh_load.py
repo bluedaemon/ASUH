@@ -62,7 +62,14 @@ for line in f:
 
 for i in range(0,len(workflow_array)):
 	commands.append("gcc -lpthread -o c_"+workflow_array[i]+" c/fileio.h c/fileio.c "+"c/"+workflow_array[i]+".c\n")
-	commands.append("nvcc -o cu_"+workflow_array[i]+" cuda/"+workflow_array[i]+".cu"+" cuda/fileio.c\n")
+
+
+	if workflow_array[i]=="tile":
+		commands.append("nvcc -o cu_"+workflow_array[i]+" cuda/"+workflow_array[i]+".c"+" cuda/fileio.c\n")	
+	else:
+		commands.append("nvcc -o cu_"+workflow_array[i]+" cuda/"+workflow_array[i]+".cu"+" cuda/fileio.c\n")
+
+
 	c_run="./c_"+workflow_array[i]+" "
 	cu_run="./cu_"+workflow_array[i]+" "
 	#Parameter Parsing
