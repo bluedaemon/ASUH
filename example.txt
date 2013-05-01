@@ -1,2 +1,4 @@
-min(10,10,i.csv,o1.csv)
-max(10,10,i.csv,o2.csv)
+mandelbrot(1000, 1000, i.csv)
+rand(100,100,stuff.csv)
+max(100,100,stuff.csv,o1.csv)
+tile(1000,1000,10,10,i.csv,o2.csv)

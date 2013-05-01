@@ -10,8 +10,8 @@ output = open('output.txt', 'w')
 
 #Insert your username and password here
 #We recommend using password-less login via SSH Keys in order to preserve the security of passwords
-user_ = 'outcode'
-pass_ =''
+user_ = 'aconeg'
+pass_ ='password'
 host_= 'mphase.rutgers.edu'
 port_= 22
 
